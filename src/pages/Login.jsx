@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, RefreshCcw } from 'lucide-react';
 import logo from '../assets/images/logo.jpg';
 const ROLES = [
@@ -8,6 +9,7 @@ const ROLES = [
 ];
 
 export default function Login() {
+  const navigate = useNavigate();
   const [role, setRole] = useState('student');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -39,7 +41,12 @@ export default function Login() {
     try {
       // TODO: Integrate with your auth API
       // await api.post('/auth/login', { username, password, role })
-      alert(`Login submitted for ${username} as ${role}`);
+      // Temporary: navigate to dashboard for student/parents
+      if (role === 'student') {
+        navigate('/dashboard');
+      } else {
+        alert(`Login submitted for ${username} as ${role}`);
+      }
     } catch (err) {
       setError(err?.message || 'Login failed');
     } finally {
