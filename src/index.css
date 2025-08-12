@@ -2,10 +2,98 @@
 
 /* Global base styles */
 @layer base {
-  html {
-    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
-      Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
+	html {
+		font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+			Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+
+	:root {
+		/* Base */
+		--background: 48 100% 99%; /* #FEFEFC */
+		--foreground: 222 47% 11%; /* slate-900 */
+
+		/* Cards */
+		--card: 0 0% 100%;
+		--card-foreground: 222 47% 11%;
+
+		/* Popovers */
+		--popover: 0 0% 100%;
+		--popover-foreground: 222 47% 11%;
+
+		/* Primary (Blue 900 vibe) */
+		--primary: 215 98% 23%; /* blue-900 */
+		--primary-foreground: 0 0% 100%;
+
+		/* Secondary */
+		--secondary: 210 40% 96%; /* slate-100 */
+		--secondary-foreground: 215 16% 47%; /* slate-500 */
+
+		/* Accent (Amber 400) */
+		--accent: 45 100% 51%; /* amber-400 */
+		--accent-foreground: 215 98% 23%; /* blue-900 */
+
+		/* Destructive */
+		--destructive: 0 84% 60%; /* red-500 */
+		--destructive-foreground: 0 0% 100%;
+
+		/* Muted */
+		--muted: 210 40% 96%; /* slate-100 */
+		--muted-foreground: 215 16% 47%; /* slate-500 */
+
+		/* Borders/Inputs */
+		--border: 215 33% 92%; /* slate-200 */
+		--input: 215 33% 92%;
+		--ring: 215 98% 23%; /* blue-900 - changed to match primary */
+
+		/* Radius */
+		--radius: 0.75rem;
+
+		/* Additional colors for new design */
+		--slate-50: 48 100% 99%;
+		--slate-100: 210 40% 96%;
+		--slate-200: 215 33% 92%;
+		--slate-300: 215 27% 87%;
+		--slate-400: 215 20% 65%;
+		--slate-500: 215 16% 47%;
+		--slate-600: 215 15% 34%;
+		--slate-700: 215 13% 25%;
+		--slate-800: 215 14% 18%;
+		--slate-900: 222 47% 11%;
+
+		--blue-50: 213 100% 96%;
+		--blue-100: 214 95% 93%;
+		--blue-500: 217 91% 60%;
+		--blue-600: 221 83% 53%;
+		--blue-700: 221 83% 53%;
+		--blue-800: 221 83% 53%;
+
+		--indigo-50: 226 100% 97%;
+		--indigo-100: 226 100% 97%;
+		--indigo-600: 226 100% 97%;
+		--indigo-700: 226 100% 97%;
+	}
+
+	.dark {
+		--background: 222 47% 11%;
+		--foreground: 210 40% 98%;
+		--card: 222 47% 13%;
+		--card-foreground: 210 40% 98%;
+		--popover: 222 47% 13%;
+		--popover-foreground: 210 40% 98%;
+		--primary: 215 98% 23%;
+		--primary-foreground: 0 0% 100%;
+		--secondary: 222 47% 20%;
+		--secondary-foreground: 210 40% 98%;
+		--accent: 45 100% 51%;
+		--accent-foreground: 215 98% 23%;
+		--destructive: 0 84% 60%;
+		--destructive-foreground: 0 0% 100%;
+		--muted: 222 47% 20%;
+		--muted-foreground: 215 20% 70%;
+		--border: 222 47% 20%;
+		--input: 222 47% 20%;
+		--ring: 45 100% 51%;
+	}
 }
