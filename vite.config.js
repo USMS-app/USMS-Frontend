@@ -17,7 +17,7 @@ export default defineConfig({
 		// Allow ngrok host(s)
 		allowedHosts: [
 			process.env.NGROK_HOST || "",
-			"7f80749c3139.ngrok-free.app",
+			"c0e649ee7563.ngrok-free.app",
 		].filter(Boolean),
 		// Improve HMR over tunnels
 		hmr: process.env.NGROK_HOST

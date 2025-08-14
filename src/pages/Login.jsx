@@ -27,12 +27,13 @@ export default function Login() {
 	const [role, setRole] = useState("student");
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const [teacherId, setTeacherId] = useState("");
 	const [captchaInput, setCaptchaInput] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
 
-	const captcha = useMemo(() => generateCaptcha(), [role]);
+	const captcha = useMemo(() => generateCaptcha(), []);
 
 	function generateCaptcha() {
 		return String(Math.floor(100000 + Math.random() * 900000));
@@ -57,7 +58,10 @@ export default function Login() {
 			// await api.post('/auth/login', { username, password, role })
 			// Temporary: navigate to dashboard for student/parents
 			if (role === "student") {
-				navigate("/dashboard");
+				navigate("/student-dashboard");
+			} else if (role === "teacher") {
+				localStorage.setItem("teacherId", teacherId);
+				navigate("/teacher");
 			} else {
 				alert(`Login submitted for ${username} as ${role}`);
 			}
@@ -72,20 +76,14 @@ export default function Login() {
 		<div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 p-4">
 			<div className="w-full max-w-md">
 				{/* Logo and Title */}
-				<div className="flex flex-col items-center mb-8">
-					<div className="flex flex-col items-center mb-6">
+				<div className="flex flex-col items-center mb-6">
+					<div className="flex flex-col items-center ">
 						<img
 							src={logo}
 							alt="USMS"
-							className=" sm:h-20 md:h-24 w-auto max-w-[140px] sm:max-w-[200px] md:max-w-[250px] object-contain"
+							className=" sm:h-15 md:h-24 w-auto max-w-[140px] sm:max-w-[200px] md:max-w-[250px] object-contain"
 						/>
 					</div>
-					<h1 className="text-2xl font-bold text-slate-800 mb-2">
-						Welcome Back
-					</h1>
-					<p className="text-slate-600 text-center">
-						Sign in to your account to continue
-					</p>
 				</div>
 
 				{/* Login Card */}
@@ -113,7 +111,6 @@ export default function Login() {
 											value={r.key}
 											className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm text-slate-600 text-xs py-2"
 										>
-
 											{r.label}
 										</TabsTrigger>
 									))}
@@ -124,6 +121,7 @@ export default function Login() {
 						<Separator />
 
 						<form onSubmit={handleSubmit} className="space-y-4">
+							
 							{/* Username */}
 							<div className="space-y-2">
 								<Label
@@ -179,7 +177,25 @@ export default function Login() {
 									</Button>
 								</div>
 							</div>
-
+{role === "teacher" && (
+								<div className="space-y-2">
+									<Label
+										htmlFor="teacherId"
+										className="text-sm font-medium text-slate-700"
+									>
+										Teacher ID
+									</Label>
+									<Input
+										id="teacherId"
+										type="text"
+										value={teacherId}
+										onChange={(e) => setTeacherId(e.target.value)}
+										className="h-11 border-slate-200 focus:border-blue-500 focus:ring-blue-500"
+										placeholder="Enter your Teacher ID"
+										required
+									/>
+								</div>
+							)}
 							{/* Captcha */}
 							<div className="space-y-3">
 								<div className="flex items-center justify-start">

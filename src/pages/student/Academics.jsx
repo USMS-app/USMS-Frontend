@@ -1,13 +1,15 @@
-import React from "react";
-import { ArrowLeft, User } from "lucide-react";
+import React, { useState } from "react";
+import { ArrowLeft, User, ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function Academics() {
-	const navigate = useNavigate();
+    const navigate = useNavigate();
+    const [selectedExam, setSelectedExam] = useState('all');
 
 	// Mock data for different tests/exams with the 6 subjects
 	const examData = [
 		{
+			id: 'fa1',
 			name: "FA1 Test",
 			date: "August 2024",
 			subjects: [
@@ -68,6 +70,7 @@ export default function Academics() {
 			],
 		},
 		{
+			id: 'fa2',
 			name: "FA2 Test",
 			date: "September 2024",
 			subjects: [
@@ -128,6 +131,7 @@ export default function Academics() {
 			],
 		},
 		{
+			id: 'midterm',
 			name: "MID-TERM",
 			date: "October 2024",
 			subjects: [
@@ -188,6 +192,7 @@ export default function Academics() {
 			],
 		},
 		{
+			id: 'fa4',
 			name: "FA4 Test",
 			date: "November 2024",
 			subjects: [
@@ -248,6 +253,7 @@ export default function Academics() {
 			],
 		},
 		{
+			id: 'fa5',
 			name: "FA5 Test",
 			date: "December 2024",
 			subjects: [
@@ -350,126 +356,129 @@ export default function Academics() {
 	};
 
 	const handleBackToDashboard = () => {
-		navigate("/student-dashboard");
+		navigate("/student");
+	
 	};
 
-	return (
-		<div className="min-h-screen bg-gray-50">
-			{/* Mobile Header */}
-			<div className="lg:hidden bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
-				<button
-					onClick={handleBackToDashboard}
-					className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg"
-				>
-					<ArrowLeft size={20} />
-				</button>
-				<div className="flex items-center gap-3">
-					<div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-						<span className="text-white font-bold text-sm">U</span>
-					</div>
-					<span className="text-gray-900 font-semibold">USMS</span>
-				</div>
-				<button
-					onClick={() => navigate("/")}
-					className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg"
-				>
-					<User size={20} />
-				</button>
-			</div>
+	// Filter exams based on selection
+	const filteredExams = selectedExam === 'all' ? examData : examData.filter(exam => exam.id === selectedExam);
 
+	return (
+		<div className="min-h-screen bg-gray-50 w-full overflow-x-hidden">
 			{/* Main Content */}
-			<main className="p-4 sm:p-6 lg:p-8">
+			<main className="p-2 sm:p-4 md:p-6 lg:p-8 w-full max-w-full">
 				<div className="space-y-4 sm:space-y-6">
 					{/* Back Button */}
-					<div className="flex items-center gap-2 sm:gap-4">
-						<button
-							onClick={handleBackToDashboard}
-							className="flex items-center gap-1 sm:gap-2 px-3 py-2 sm:px-4 text-sm sm:text-base text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all duration-200"
-						>
-							<ArrowLeft size={16} className="sm:w-5 sm:h-5" />
-							<span className="hidden xs:inline">Back to Dashboard</span>
-							<span className="xs:hidden">Back</span>
-						</button>
-					</div>
+					<div className="flex items-center gap-4">
+									<button
+										onClick={handleBackToDashboard}
+										className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all duration-200">
+										<ArrowLeft size={20} />
+										<span>Back to Dashboard</span>
+									</button>
+								</div>
 
 					{/* Report Card Header */}
-					<div className="bg-white rounded-lg sm:rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
-						<div className="text-center mb-4 sm:mb-6">
-							<h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
+					<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-3 sm:p-4 md:p-6 w-full">
+						<div className="text-center mb-3 sm:mb-4 md:mb-6">
+							<h1 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-1 sm:mb-2">
 								Academic Report Card
 							</h1>
-							<p className="text-sm sm:text-base text-gray-600">
+							<p className="text-xs sm:text-sm md:text-base text-gray-600">
 								2024-25 Academic Year
 							</p>
 						</div>
 					</div>
 
+					{/* Exam Selection Dropdown */}
+					<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-3 sm:p-4 md:p-6 w-full">
+						<div className="flex flex-col gap-2 sm:gap-3">
+							<label className="text-xs sm:text-sm font-medium text-gray-700">
+								Select Exam:
+							</label>
+							<div className="relative w-full">
+								<select
+									value={selectedExam}
+									onChange={(e) => setSelectedExam(e.target.value)}
+									className="w-full px-3 py-2 text-xs sm:text-sm border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none"
+								>
+									<option value="all">All Exams</option>
+									{examData.map((exam) => (
+										<option key={exam.id} value={exam.id}>
+											{exam.name} - {exam.date}
+										</option>
+									))}
+								</select>
+								<ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 w-3 h-3 sm:w-4 sm:h-4 text-gray-400 pointer-events-none" />
+							</div>
+						</div>
+					</div>
+
 					{/* Individual Test/Exam Tables */}
-					{examData.map((exam, examIndex) => (
+					{filteredExams.map((exam, examIndex) => (
 						<div
 							key={examIndex}
-							className="bg-white rounded-lg sm:rounded-xl shadow-sm border border-gray-200 overflow-hidden"
+							className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden w-full"
 						>
 							{/* Exam Header */}
-							<div className="p-3 sm:p-4 lg:p-6 border-b border-gray-200 bg-gray-50">
-								<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3">
+							<div className="p-3 sm:p-4 border-b border-gray-200 bg-gray-50">
+								<div className="flex justify-between gap-2">
 									<div>
-										<h2 className="text-base sm:text-lg lg:text-xl font-semibold text-gray-900">
+										<h2 className="text-sm sm:text-base md:text-lg font-semibold text-gray-900">
 											{exam.name}
 										</h2>
-										<p className="text-xs sm:text-sm text-gray-600">
+										<p className="text-xs text-gray-600">
 											{exam.date}
 										</p>
 									</div>
-									<div className="text-left sm:text-right">
-										<p className="text-sm sm:text-base lg:text-lg font-semibold text-gray-900">
+									<div className="text-left">
+										<p className="text-sm sm:text-base font-semibold text-gray-900">
 											{calculateTotal(exam.subjects)}/
 											{exam.subjects[0].maxMarks * 6}
 										</p>
-										<p className="text-xs sm:text-sm text-gray-600">
+										<p className="text-xs text-gray-600">
 											{calculatePercentage(exam.subjects)}%
 										</p>
 									</div>
 								</div>
 							</div>
 
-							{/* Mobile-First Table Container */}
-							<div className="w-full">
-								{/* Mobile scroll indicator - always visible on mobile */}
-								<div className="px-3 py-2 bg-blue-50 border-b border-blue-200 block sm:hidden">
-									<div className="flex items-center gap-2 text-blue-700">
-										<div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-										<span className="text-xs font-medium">
-											← Swipe to view all columns →
-										</span>
-									</div>
+							{/* Mobile scroll indicator */}
+							<div className="px-3 py-2 bg-blue-50 border-b border-blue-200">
+								<div className="flex items-center gap-2 text-blue-700">
+									<div className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></div>
+									<span className="text-xs font-medium">
+										← Swipe to view all columns →
+									</span>
 								</div>
+							</div>
 
-								{/* Horizontally Scrollable Table Container */}
-								<div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
-									<table className="w-full min-w-[480px] text-left">
-										<thead className="bg-gray-50 sticky top-0 z-10">
+							{/* Table Container with Horizontal Scroll */}
+							<div className="w-full overflow-x-auto overscroll-x-contain" style={{maxWidth: '100vw'}}>
+								<div className="inline-block min-w-full">
+									<table className="w-full min-w-[480px]">
+										<thead className="bg-gray-50">
 											<tr>
-												<th className="px-2 sm:px-3 lg:px-4 py-2 sm:py-3 text-xs font-medium text-gray-500 uppercase tracking-wide border-r border-gray-200">
+												<th className="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wide border-r border-gray-200 w-10">
 													SL
 												</th>
-												<th className="px-3 sm:px-4 lg:px-6 py-2 sm:py-3 text-xs font-medium text-gray-500 uppercase tracking-wide border-r border-gray-200 min-w-[80px]">
-													Subject
+												<th className="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wide border-r border-gray-200 w-20">
+													SUBJECT
 												</th>
-												<th className="px-2 sm:px-3 lg:px-4 py-2 sm:py-3 text-xs font-medium text-gray-500 uppercase tracking-wide border-r border-gray-200">
-													Max
+												<th className="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wide border-r border-gray-200 w-12">
+													MAX
 												</th>
-												<th className="px-2 sm:px-3 lg:px-4 py-2 sm:py-3 text-xs font-medium text-gray-500 uppercase tracking-wide border-r border-gray-200">
-													Min
+												<th className="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wide border-r border-gray-200 w-12">
+													MIN
 												</th>
-												<th className="px-2 sm:px-3 lg:px-4 py-2 sm:py-3 text-xs font-medium text-gray-500 uppercase tracking-wide border-r border-gray-200">
-													Score
+												<th className="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wide border-r border-gray-200 w-14">
+													SCORE
 												</th>
-												<th className="px-2 sm:px-3 lg:px-4 py-2 sm:py-3 text-xs font-medium text-gray-500 uppercase tracking-wide border-r border-gray-200">
-													Grade
+												<th className="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wide border-r border-gray-200 w-16">
+													GRADE
 												</th>
-												<th className="px-2 sm:px-3 lg:px-4 py-2 sm:py-3 text-xs font-medium text-gray-500 uppercase tracking-wide">
-													Status
+												<th className="px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wide w-16">
+													STATUS
 												</th>
 											</tr>
 										</thead>
@@ -477,37 +486,37 @@ export default function Academics() {
 											{exam.subjects.map((subject, index) => (
 												<tr
 													key={subject.slno}
-													className={`hover:bg-gray-50 ${
+													className={`${
 														index % 2 === 0 ? "bg-white" : "bg-gray-50/30"
 													}`}
 												>
-													<td className="px-2 sm:px-3 lg:px-4 py-2 sm:py-3 text-xs sm:text-sm font-medium text-gray-900 border-r border-gray-100">
+													<td className="px-2 py-2 text-xs font-medium text-gray-900 border-r border-gray-100">
 														{subject.slno}
 													</td>
-													<td className="px-3 sm:px-4 lg:px-6 py-2 sm:py-3 text-xs sm:text-sm font-medium text-gray-900 border-r border-gray-100 min-w-[80px]">
+													<td className="px-2 py-2 text-xs font-medium text-gray-900 border-r border-gray-100">
 														{subject.subject}
 													</td>
-													<td className="px-2 sm:px-3 lg:px-4 py-2 sm:py-3 text-xs sm:text-sm text-gray-900 border-r border-gray-100">
+													<td className="px-2 py-2 text-xs text-gray-900 border-r border-gray-100">
 														{subject.maxMarks}
 													</td>
-													<td className="px-2 sm:px-3 lg:px-4 py-2 sm:py-3 text-xs sm:text-sm text-gray-900 border-r border-gray-100">
+													<td className="px-2 py-2 text-xs text-gray-900 border-r border-gray-100">
 														{subject.minMarks}
 													</td>
-													<td className="px-2 sm:px-3 lg:px-4 py-2 sm:py-3 text-xs sm:text-sm font-bold text-gray-900 border-r border-gray-100">
+													<td className="px-2 py-2 text-xs font-bold text-gray-900 border-r border-gray-100">
 														{subject.marksScored}
 													</td>
-													<td className="px-2 sm:px-3 lg:px-4 py-2 sm:py-3 border-r border-gray-100">
+													<td className="px-2 py-2 border-r border-gray-100">
 														<span
-															className={`inline-flex px-1.5 py-0.5 sm:px-2 sm:py-1 text-xs font-semibold rounded-full ${getGradeColor(
+															className={`inline-flex px-1 py-0.5 text-xs font-semibold rounded ${getGradeColor(
 																subject.letterGrade
 															)}`}
 														>
 															{subject.letterGrade}
 														</span>
 													</td>
-													<td className="px-2 sm:px-3 lg:px-4 py-2 sm:py-3">
+													<td className="px-2 py-2">
 														<span
-															className={`inline-flex px-1.5 py-0.5 sm:px-2 sm:py-1 text-xs font-semibold rounded-full ${getStatusColor(
+															className={`inline-flex px-1 py-0.5 text-xs font-semibold rounded ${getStatusColor(
 																subject.status
 															)}`}
 														>
@@ -519,77 +528,79 @@ export default function Academics() {
 										</tbody>
 									</table>
 								</div>
+							</div>
 
-								{/* Mobile footer with scroll hint */}
-								<div className="px-3 py-2 bg-gray-50 border-t border-gray-200 block sm:hidden">
-									<div className="flex items-center justify-between text-gray-500">
-										<span className="text-xs">Scroll horizontally →</span>
-										<span className="text-xs font-medium">
-											{exam.subjects.length} subjects
-										</span>
-									</div>
+							{/* Mobile footer with scroll hint */}
+							<div className="px-3 py-2 bg-gray-50 border-t border-gray-200">
+								<div className="flex items-center justify-between text-gray-500">
+									<span className="text-xs">Scroll horizontally →</span>
+									<span className="text-xs font-medium">
+										{exam.subjects.length} subjects
+									</span>
 								</div>
 							</div>
 						</div>
 					))}
 
 					{/* Overall Performance Summary */}
-					<div className="bg-white rounded-lg sm:rounded-xl shadow-sm border border-gray-200 p-3 sm:p-4 lg:p-6">
-						<h3 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">
-							Overall Performance Summary
-						</h3>
+					{selectedExam === 'all' && (
+						<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-3 sm:p-4 w-full">
+							<h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-3">
+								Overall Performance Summary
+							</h3>
 
-						{/* Mobile-first grid - 2 columns on mobile, more on larger screens */}
-						<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3 lg:gap-4">
-							{examData.map((exam, index) => (
-								<div
-									key={index}
-									className="text-center p-2 sm:p-3 lg:p-4 bg-gray-50 rounded-lg"
-								>
-									<p className="text-xs sm:text-sm font-medium text-gray-900 mb-1 sm:mb-2 truncate">
-										{exam.name}
-									</p>
-									<p className="text-base sm:text-lg lg:text-2xl font-bold text-blue-600">
-										{calculatePercentage(exam.subjects)}%
-									</p>
-									<p className="text-xs text-gray-600">
-										{calculateTotal(exam.subjects)}/
-										{exam.subjects[0].maxMarks * 6}
-									</p>
-								</div>
-							))}
-						</div>
+							{/* Mobile-first grid - 2 columns on mobile, more on larger screens */}
+							<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
+								{examData.map((exam, index) => (
+									<div
+										key={index}
+										className="text-center p-2 bg-gray-50 rounded-lg"
+									>
+										<p className="text-xs font-medium text-gray-900 mb-1 truncate">
+											{exam.name}
+										</p>
+										<p className="text-sm sm:text-base font-bold text-blue-600">
+											{calculatePercentage(exam.subjects)}%
+										</p>
+										<p className="text-xs text-gray-600">
+											{calculateTotal(exam.subjects)}/
+											{exam.subjects[0].maxMarks * 6}
+										</p>
+									</div>
+								))}
+							</div>
 
-						{/* Additional stats for mobile */}
-						<div className="mt-4 pt-4 border-t border-gray-200 block sm:hidden">
-							<div className="grid grid-cols-2 gap-3 text-center">
-								<div className="p-3 bg-green-50 rounded-lg">
-									<p className="text-lg font-bold text-green-600">
-										{Math.round(
-											examData.reduce(
-												(acc, exam) =>
-													acc + parseFloat(calculatePercentage(exam.subjects)),
-												0
-											) / examData.length
-										)}
-										%
-									</p>
-									<p className="text-xs text-gray-600">Average</p>
-								</div>
-								<div className="p-3 bg-blue-50 rounded-lg">
-									<p className="text-lg font-bold text-blue-600">
-										{Math.max(
-											...examData.map((exam) =>
-												parseFloat(calculatePercentage(exam.subjects))
-											)
-										)}
-										%
-									</p>
-									<p className="text-xs text-gray-600">Best Score</p>
+							{/* Additional stats for mobile */}
+							<div className="mt-3 pt-3 border-t border-gray-200">
+								<div className="grid grid-cols-2 gap-2 text-center">
+									<div className="p-2 bg-green-50 rounded-lg">
+										<p className="text-sm font-bold text-green-600">
+											{Math.round(
+												examData.reduce(
+													(acc, exam) =>
+														acc + parseFloat(calculatePercentage(exam.subjects)),
+													0
+												) / examData.length
+											)}
+											%
+										</p>
+										<p className="text-xs text-gray-600">Average</p>
+									</div>
+									<div className="p-2 bg-blue-50 rounded-lg">
+										<p className="text-sm font-bold text-blue-600">
+											{Math.max(
+												...examData.map((exam) =>
+													parseFloat(calculatePercentage(exam.subjects))
+												)
+											)}
+											%
+										</p>
+										<p className="text-xs text-gray-600">Best Score</p>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					)}
 				</div>
 			</main>
 		</div>

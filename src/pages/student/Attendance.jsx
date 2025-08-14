@@ -114,33 +114,11 @@ export default function Attendance() {
 	);
 
 	const handleBackToDashboard = () => {
-		navigate("/student-dashboard");
+		navigate("/student");
 	};
 
 	return (
-		<div className="min-h-screen bg-gray-50">
-			{/* Mobile Header */}
-			<div className="lg:hidden bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
-				<button
-					onClick={handleBackToDashboard}
-					className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg"
-				>
-					<ArrowLeft size={20} />
-				</button>
-				<div className="flex items-center gap-3">
-					<div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-						<span className="text-white font-bold text-sm">U</span>
-					</div>
-					<span className="text-gray-900 font-semibold">USMS</span>
-				</div>
-				<button
-					onClick={() => navigate("/")}
-					className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg"
-				>
-					<User size={20} />
-				</button>
-			</div>
-
+		<div className="min-h-screen overflow-x-hidden bg-gray-50">
 			{/* Main Content */}
 			<main className="p-4 sm:p-6 lg:p-8">
 				<div className="space-y-6">
@@ -148,8 +126,7 @@ export default function Attendance() {
 					<div className="flex items-center gap-4">
 						<button
 							onClick={handleBackToDashboard}
-							className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all duration-200"
-						>
+							className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all duration-200">
 							<ArrowLeft size={20} />
 							<span>Back to Dashboard</span>
 						</button>
