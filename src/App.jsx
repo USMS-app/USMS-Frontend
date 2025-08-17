@@ -21,6 +21,14 @@ import TeacherAttendance from "./pages/teacher/Attendance";
 import TeacherAnalytics from "./pages/teacher/Analytics";
 import { TeacherAuthProvider } from "./contexts/TeacherAuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+// Owner imports
+import OwnerLayout from "./pages/owner/OwnerLayout";
+import OwnerHome from "./pages/owner/OwnerHome";
+import Schools from "./pages/owner/Schools";
+import AddSchool from "./pages/owner/AddSchool";
+import SchoolDetail from "./pages/owner/SchoolDetail";
+import Analytics from "./pages/owner/Analytics";
+import Settings from "./pages/owner/Settings";
 
 const App = () => {
 	return (
@@ -75,6 +83,17 @@ const App = () => {
 						}
 					/>
 				</Route>
+
+				{/* Owner nested routes */}
+				<Route path="/owner" element={<OwnerLayout />}>
+					<Route index element={<OwnerHome />} />
+					<Route path="schools" element={<Schools />} />
+					<Route path="schools/new" element={<AddSchool />} />
+					<Route path="schools/:id" element={<SchoolDetail />} />
+					<Route path="analytics" element={<Analytics />} />
+					<Route path="settings" element={<Settings />} />
+				</Route>
+
 				<Route path="*" element={<Navigate to="/" replace />} />
 			</Routes>
 			<Toaster position="top-right" richColors expand />
